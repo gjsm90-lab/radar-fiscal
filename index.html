@@ -147,6 +147,17 @@ section.alt{background:var(--bg2);border-block:1px solid var(--line)}
 .doc b{font-family:var(--display)} .doc span{display:block;color:var(--muted);font-size:.92rem;margin-top:.2rem}
 @media (max-width:860px){.docs{grid-template-columns:1fr}}
 
+/* precios */
+.planes{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;max-width:860px}
+.plan{padding:1.6rem 1.6rem 1.5rem;border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.03);min-width:0}
+.plan.destacado{border-color:var(--teal);background:var(--bg3)}
+.plan .etq{font-family:var(--display);font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+.plan b{display:block;font-family:var(--display);font-size:2.8rem;font-weight:800;color:#fff;line-height:1.1;margin-top:.5rem;font-variant-numeric:tabular-nums}
+.plan small{color:var(--muted);font-size:.95rem}
+.plan p{color:var(--muted);margin-top:.8rem;font-size:1rem}
+.nota{color:var(--dim);margin-top:1.1rem;font-size:.95rem}
+@media (max-width:640px){.planes{grid-template-columns:1fr}}
+
 /* faq */
 .faq{max-width:46rem} .faq details{border-top:1px solid var(--line);padding-block:.9rem}
 .faq details:last-child{border-bottom:1px solid var(--line)}
@@ -205,7 +216,7 @@ footer img{height:22px;width:auto;opacity:.85}
   <div class="wrap">
     <a href="#inicio" aria-label="Radar Fiscal, inicio"><img src="media/logo.png" alt="Radar Fiscal · NUBYTEC by TFGRUPO" width="1200" height="268"></a>
     <nav aria-label="Secciones">
-      <a href="#video">Video</a><a href="#funciones">Funciones</a><a href="#seguridad">Seguridad</a><a href="#documentos">Documentos</a><a href="#faq">Preguntas</a>
+      <a href="#video">Video</a><a href="#funciones">Funciones</a><a href="#seguridad">Seguridad</a><a href="#documentos">Documentos</a><a href="#precios">Precios</a><a href="#faq">Preguntas</a>
     </nav>
     <a class="btn btn-primary" href="https://wa.me/525565805408?text=Hola%2C%20quiero%20una%20demo%20de%20Radar%20Fiscal" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg><span><span class="lbl">Agenda tu </span>demo</span></a>
   </div>
@@ -375,7 +386,7 @@ footer img{height:22px;width:auto;opacity:.85}
       <div class="card"><svg><use href="#i-table"/></svg><h3>XML a Excel</h3><p>Convierte cualquier carpeta de XML a Excel, por comprobante o por concepto, aunque no sea de tus empresas.</p></div>
       <div class="card"><svg><use href="#i-chart"/></svg><h3>Tablero</h3><p>Ingresos, gastos, IVA e ISR estimados, cartera por cobrar y por pagar, alertas y los principales clientes y proveedores de cada empresa, de un vistazo.</p></div>
       <div class="card"><svg><use href="#i-book"/></svg><h3>Manual interactivo</h3><p>Guía paso a paso dentro del programa (tecla F1), con las pantallas reales y lo que hace cada botón.</p></div>
-      <div class="card"><svg><use href="#i-key"/></svg><h3>Licencia por equipo</h3><p>Una licencia por computadora, empresas ilimitadas. Instalación y conexión con CONTPAQi incluidas.</p></div>
+      <div class="card"><svg><use href="#i-key"/></svg><h3>Licencia por equipo</h3><p>Pago único: $2,800 + IVA el primer equipo y $1,200 + IVA cada adicional, con empresas ilimitadas. Instalación y conexión con CONTPAQi incluidas.</p></div>
     </div>
   </div>
 </section>
@@ -406,7 +417,7 @@ footer img{height:22px;width:auto;opacity:.85}
     <div class="steps">
       <div class="step"><h3>Agenda tu demo</h3><p>Escríbenos por WhatsApp. En una videollamada te lo mostramos funcionando con empresas de demostración.</p></div>
       <div class="step"><h3>Lo instalamos y lo conectamos</h3><p>Nosotros instalamos el programa en tu equipo, activamos la licencia y lo conectamos con tu CONTPAQi. Tú registras cada empresa con su e.firma; te acompañamos en la primera.</p></div>
-      <div class="step"><h3>Úsalo gratis 3 días</h3><p>Con todas las funciones. Si te convence, activas tu licencia por equipo y sigues con los mismos datos.</p></div>
+      <div class="step"><h3>Úsalo gratis 3 días</h3><p>Con todas las funciones. Si te convence, activas tu licencia ($2,800 + IVA el primer equipo) y sigues con los mismos datos.</p></div>
     </div>
   </div>
 </section>
@@ -425,6 +436,21 @@ footer img{height:22px;width:auto;opacity:.85}
   </div>
 </section>
 
+<section id="precios">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Precios</p>
+      <h2>Licencia por equipo, pago único</h2>
+      <p>No es renta: pagas una vez por cada computadora del despacho, con empresas y RFC ilimitados.</p>
+    </div>
+    <div class="planes">
+      <div class="plan destacado"><span class="etq">Licencia base</span><b>$2,800</b><small>+ IVA · pago único</small><p>Primer equipo, con todas las funciones. Instalación, activación y conexión con CONTPAQi incluidas.</p></div>
+      <div class="plan"><span class="etq">Equipo adicional</span><b>$1,200</b><small>+ IVA · pago único</small><p>Misma licencia para cada computadora extra del despacho. La bóveda puede estar en una carpeta compartida.</p></div>
+    </div>
+    <p class="nota">Precios en pesos mexicanos. Demo gratis 3 días antes de decidir.</p>
+  </div>
+</section>
+
 <section class="alt" id="faq">
   <div class="wrap">
     <div class="head">
@@ -438,7 +464,7 @@ footer img{height:22px;width:auto;opacity:.85}
       <details><summary>¿Cuántas empresas puedo manejar?</summary><p>Las que necesites, sin límite. La licencia es por equipo, no por empresa ni por RFC.</p></details>
       <details><summary>¿Me entero si un cliente o proveedor cancela una factura?</summary><p>Sí. El programa compara con la Metadata del SAT y verifica el estatus de cada CFDI; cuando una factura ya descargada aparece cancelada, lo marca en Documentos y en el reporte, lo avisa en Alertas y, si configuras el correo del despacho, manda la alerta por correo al despacho y al cliente.</p></details>
       <details><summary>¿Qué necesito para instalarlo?</summary><p>Una computadora con Windows 10 u 11 y Microsoft Edge (viene con Windows). No funciona en Mac. CONTPAQi Contabilidad solo si quieres subir los XML al ADD; sin él, el programa trabaja igual.</p></details>
-      <details><summary>¿Cuánto cuesta?</summary><p>La licencia es por equipo, con empresas ilimitadas, e incluye instalación y conexión con CONTPAQi. Escríbenos por WhatsApp y te cotizamos según cuántos equipos necesitas. La demo de 3 días no tiene costo.</p></details>
+      <details><summary>¿Cuánto cuesta?</summary><p>Licencia base de $2,800 + IVA por el primer equipo y $1,200 + IVA por cada equipo adicional, en un solo pago, con empresas ilimitadas e instalación y conexión con CONTPAQi incluidas. La demo de 3 días no tiene costo.</p></details>
     </div>
   </div>
 </section>
