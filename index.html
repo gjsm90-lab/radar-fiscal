@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Radar Fiscal · Control fiscal de CFDI para despachos contables</title>
+<meta name="description" content="Radar Fiscal descarga los CFDI de tus clientes directo del SAT con su e.firma, sin captcha ni portal; ordena la bóveda, avisa de EFOS 69-B y cancelaciones, arma reportes de ISR e IVA conciliados con el prellenado y los sube a CONTPAQi. Demo gratis 3 días.">
+<link rel="canonical" href="https://gabotfg.github.io/radar-fiscal/">
+<link rel="icon" type="image/png" href="media/icono.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:site_name" content="Radar Fiscal · NUBYTEC by TFGRUPO">
+<meta property="og:title" content="Radar Fiscal — todos los CFDI de tus clientes, sin portal y sin captcha">
+<meta property="og:description" content="Radar Fiscal descarga los CFDI de tus clientes directo del SAT con su e.firma, sin captcha ni portal; ordena la bóveda, avisa de EFOS 69-B y cancelaciones, arma reportes de ISR e IVA conciliados con el prellenado y los sube a CONTPAQi. Demo gratis 3 días.">
+<meta property="og:url" content="https://gabotfg.github.io/radar-fiscal/">
+<meta property="og:image" content="https://gabotfg.github.io/radar-fiscal/media/portada.jpg">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">
+<meta property="og:image:alt" content="Radar Fiscal · NUBYTEC by TFGRUPO">
+<meta property="og:video" content="https://gabotfg.github.io/radar-fiscal/media/comercial.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="1280">
+<meta property="og:video:height" content="720">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Radar Fiscal — control fiscal de CFDI para despachos contables">
+<meta name="twitter:description" content="Radar Fiscal descarga los CFDI de tus clientes directo del SAT con su e.firma, sin captcha ni portal; ordena la bóveda, avisa de EFOS 69-B y cancelaciones, arma reportes de ISR e IVA conciliados con el prellenado y los sube a CONTPAQi. Demo gratis 3 días.">
+<meta name="twitter:image" content="https://gabotfg.github.io/radar-fiscal/media/portada.jpg">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: una sola columna de 1120 px con el video en el hero; secciones alternas texto/pantalla; mundo navy de la marca (tema único, oscuro por decisión). */
+:root{
+  --bg:#0B1324; --bg2:#111B33; --bg3:#172342; --ink:#E8EEF8; --muted:#A3B3CB; --dim:#8292AE;
+  --teal:#2DD4BF; --sky:#38BDF8; --blue:#2563EB; --amber:#F5B041; --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.18);
+  --display:"Montserrat",system-ui,"Segoe UI",sans-serif; --body:"IBM Plex Sans",system-ui,"Segoe UI",sans-serif;
+  --radius:14px; --maxw:1120px; color-scheme:dark;
+}
+*{box-sizing:border-box}
+figure{margin:0}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--sky)} a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+img,video{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(2rem,4.6vw,3.4rem);font-weight:800}
+h2{font-size:clamp(1.6rem,3vw,2.3rem);font-weight:800}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:20px}
+.kicker{font-family:var(--display);font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+.hl{background:linear-gradient(90deg,var(--teal),var(--sky));-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{display:inline-flex;align-items:center;gap:.55rem;padding:.85rem 1.35rem;border-radius:999px;font-family:var(--display);font-weight:700;font-size:1rem;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--teal);color:#06202A}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line2)}
+.btn svg{width:20px;height:20px;flex:none}
+
+/* barra superior */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(11,19,36,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:68px}
+.top img{height:38px;width:auto}
+.top nav{display:flex;gap:1.4rem;font-size:.95rem}
+.top nav a{color:var(--muted);text-decoration:none} .top nav a:hover{color:var(--ink)}
+.top .btn{padding:.6rem 1.05rem;font-size:.92rem;white-space:nowrap}
+@media (max-width:480px){.top .btn .lbl{display:none}.top .btn{padding:.55rem .9rem}}
+@media (max-width:860px){.top nav{display:none}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding-block:3.5rem 3rem}
+.hero::before{content:"";position:absolute;inset:-40% -20% auto;height:140%;background:radial-gradient(60% 55% at 70% 30%,rgba(37,99,235,.35),transparent 70%),radial-gradient(40% 40% at 15% 80%,rgba(45,212,191,.18),transparent 70%);pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:2.5rem;align-items:center}
+.hero p.lead{font-size:1.2rem;color:var(--muted);max-width:34rem;margin-top:1.1rem}
+.hero .cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.6rem}
+.hero .facts{display:flex;flex-wrap:wrap;gap:1.4rem;margin-top:1.8rem;color:var(--muted);font-size:.95rem}
+.hero .facts span{display:inline-flex;align-items:center;gap:.45rem}
+.hero .facts svg{width:18px;height:18px;color:var(--teal)}
+.player{border-radius:var(--radius);overflow:hidden;background:#000;box-shadow:0 30px 60px rgba(0,0,0,.5),0 0 0 1px var(--line2)}
+.player{position:relative}
+.player video{width:100%;aspect-ratio:16/9;background:#000}
+.player .play{all:unset;position:absolute;inset:0;display:grid;place-content:end center;padding-bottom:9%;gap:.7rem;justify-items:center;cursor:pointer;background:linear-gradient(to top,rgba(5,10,20,.55),rgba(5,10,20,0) 55%)}
+.player .play .ring{width:84px;height:84px;border-radius:50%;background:var(--teal);color:#06202A;display:grid;place-items:center;box-shadow:0 10px 30px rgba(45,212,191,.35);transition:transform .15s ease}
+.player .play .ring svg{width:38px;height:38px;margin-left:4px}
+.player .play:hover .ring{transform:scale(1.06)}
+.player .play .txt{font-family:var(--display);font-weight:700;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.player .play:focus-visible{outline:3px solid var(--teal);outline-offset:-6px}
+.player-cap{display:flex;justify-content:space-between;gap:1rem;color:var(--dim);font-size:.85rem;margin-top:.6rem}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero{padding-block:2.2rem}#video{order:-1}.hero p.lead{font-size:1.05rem}}
+@media (max-width:560px){.player-cap{flex-direction:column;gap:.15rem}}
+@media (max-width:420px){.btn{padding-inline:1rem;font-size:.95rem}.chip{font-size:.9rem;padding-inline:.7rem;flex-wrap:wrap}}
+
+/* secciones */
+section{padding-block:4.5rem}
+section.alt{background:var(--bg2);border-block:1px solid var(--line)}
+.head{max-width:44rem;margin-bottom:2.4rem}
+.head h2{margin-top:.5rem}
+.head p{color:var(--muted);margin-top:.8rem;font-size:1.08rem}
+
+/* dolores */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.pain{padding:1.4rem 1.4rem 1.5rem;border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.03)}
+.pain h3{margin-bottom:.5rem} .pain p{color:var(--muted);font-size:1rem}
+.pain .n{font-family:var(--display);font-size:2rem;font-weight:800;color:var(--amber);line-height:1;margin-bottom:.8rem}
+@media (max-width:860px){.pains{grid-template-columns:1fr}}
+
+/* recorrido texto + pantalla */
+.feat{display:grid;grid-template-columns:1fr 1.25fr;gap:2.4rem;align-items:center;padding-block:2.6rem;border-top:1px solid var(--line)}
+.feat:first-of-type{border-top:0}
+.feat.flip .shot{order:-1}
+.feat h3{font-size:clamp(1.3rem,2.2vw,1.7rem);margin-top:.5rem}
+.feat p{color:var(--muted);margin-top:.8rem}
+.feat ul{margin:1rem 0 0;padding:0;list-style:none;display:grid;gap:.45rem}
+.feat li{display:flex;gap:.6rem;align-items:flex-start;font-size:1rem}
+.feat li svg{width:20px;height:20px;flex:none;color:var(--teal);margin-top:.2rem}
+.shot{min-width:0}
+.shot button{all:unset;display:block;width:100%;cursor:zoom-in;border-radius:12px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.45),0 0 0 1px var(--line2);background:#fff}
+.shot img{width:100%}
+.shot small{display:block;color:var(--dim);font-size:.85rem;margin-top:.55rem}
+@media (max-width:860px){.feat{grid-template-columns:1fr;gap:1.4rem}.feat.flip .shot{order:0}}
+
+/* grid de extras */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.card{padding:1.25rem 1.3rem;border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.03);min-width:0}
+.card svg{width:28px;height:28px;color:var(--teal);margin-bottom:.7rem}
+.card h3{font-size:1.05rem} .card p{color:var(--muted);font-size:.97rem;margin-top:.35rem}
+@media (max-width:860px){.grid{grid-template-columns:1fr 1fr}} @media (max-width:560px){.grid{grid-template-columns:1fr}}
+
+/* seguridad */
+.sec{display:grid;grid-template-columns:1.1fr 1fr;gap:2.5rem;align-items:center}
+.sec .big{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.tile{padding:1.2rem;border-radius:var(--radius);background:var(--bg3);border:1px solid var(--line)}
+.tile b{display:block;font-family:var(--display);font-size:1.7rem;font-weight:800;color:var(--teal);line-height:1.1}
+.tile span{color:var(--muted);font-size:.95rem}
+@media (max-width:860px){.sec{grid-template-columns:1fr}}
+
+/* pasos */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;counter-reset:paso}
+.step{position:relative;padding:1.4rem 1.4rem 1.4rem 4.2rem;border:1px solid var(--line);border-radius:var(--radius)}
+.step::before{counter-increment:paso;content:counter(paso);position:absolute;left:1.2rem;top:1.25rem;width:2.1rem;height:2.1rem;border-radius:50%;background:var(--teal);color:#06202A;font-family:var(--display);font-weight:800;display:grid;place-items:center}
+.step p{color:var(--muted);font-size:1rem;margin-top:.4rem}
+@media (max-width:860px){.steps{grid-template-columns:1fr}}
+
+/* documentos */
+.docs{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.doc{display:flex;gap:1rem;align-items:flex-start;padding:1.2rem;border:1px solid var(--line);border-radius:var(--radius);text-decoration:none;color:inherit;background:rgba(255,255,255,.03)}
+.doc:hover{border-color:var(--line2)}
+.doc svg{width:34px;height:34px;color:var(--sky);flex:none}
+.doc b{font-family:var(--display)} .doc span{display:block;color:var(--muted);font-size:.92rem;margin-top:.2rem}
+@media (max-width:860px){.docs{grid-template-columns:1fr}}
+
+/* faq */
+.faq{max-width:46rem} .faq details{border-top:1px solid var(--line);padding-block:.9rem}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;font-family:var(--display);font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:1rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--teal);font-size:1.4rem;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq details p{color:var(--muted);margin-top:.6rem;max-width:42rem}
+
+/* cierre + pie */
+.final{text-align:center;padding-block:5rem}
+.final h2{font-size:clamp(1.9rem,4vw,3rem)}
+.final p{color:var(--muted);margin:1rem auto 0;max-width:36rem;font-size:1.1rem}
+.final .cta{display:flex;justify-content:center;flex-wrap:wrap;gap:.8rem;margin-top:1.8rem}
+.contact{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem 1.2rem;margin-top:2rem}
+.chip{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border:1px solid var(--line2);border-radius:999px;font-size:.95rem;background:var(--bg2)}
+.chip svg{width:16px;height:16px;color:var(--teal)}
+.chip button{all:unset;cursor:pointer;color:var(--sky);font-size:.85rem;padding:.1rem .4rem;border-radius:6px}
+.chip button:hover{background:rgba(255,255,255,.08)}
+footer{border-top:1px solid var(--line);padding-block:1.6rem;color:var(--dim);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.6rem 1.5rem;align-items:center}
+footer img{height:22px;width:auto;opacity:.85}
+
+/* visor de pantallas */
+.lb{position:fixed;inset:0;z-index:40;background:rgba(5,10,20,.92);display:grid;place-items:center;padding:4vmin;cursor:zoom-out}
+.lb{grid-template-rows:1fr auto;gap:.6rem;overflow:auto}
+.lb img{max-width:100%;max-height:calc(86vh - 2.5rem);width:auto;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.6);align-self:end;justify-self:center}
+.lb figcaption{text-align:center;color:var(--muted);font-size:.95rem;padding-inline:20px;align-self:start}
+.lb .x{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:12px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line2);background:var(--bg2);color:var(--ink);font-size:1.4rem;line-height:1;cursor:pointer}
+@media (max-width:860px){.lb{padding:8px;place-items:start center}.lb img{max-height:none;max-width:100%}}
+.toast{position:fixed;left:50%;bottom:calc(1.5rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--teal);color:#06202A;font-weight:600;padding:.6rem 1rem;border-radius:999px;font-size:.95rem;z-index:50}
+@media (prefers-reduced-motion:reduce){.btn,.btn:hover{transition:none;transform:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m7.5 12.3 3 3 6-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8Zm-3 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4l-.5-.3-1.9-.9c-.3-.1-.5-.2-.7.2l-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.5-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5.3-.5c.1-.2 0-.4 0-.5L9.6 8.5c-.2-.4-.4-.4-.6-.4Z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11m0 0 4-4m-4 4-4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.5 3.2 8 7.5 9.5 4.3-1.5 7.5-5 7.5-9.5V6L12 3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5M9.5 13h7M9.5 16.5h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-pc" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 20h8m-4-3.5V20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M3 15h18M9 4v16M15 4v16" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4m0 16h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m7 15 4-5 3 3 5-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 12h9m-3 0v3m-3-3v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a href="#inicio" aria-label="Radar Fiscal, inicio"><img src="media/logo.png" alt="Radar Fiscal · NUBYTEC by TFGRUPO" width="1200" height="268"></a>
+    <nav aria-label="Secciones">
+      <a href="#video">Video</a><a href="#funciones">Funciones</a><a href="#seguridad">Seguridad</a><a href="#documentos">Documentos</a><a href="#faq">Preguntas</a>
+    </nav>
+    <a class="btn btn-primary" href="https://wa.me/525565805408?text=Hola%2C%20quiero%20una%20demo%20de%20Radar%20Fiscal" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg><span><span class="lbl">Agenda tu </span>demo</span></a>
+  </div>
+</header>
+
+<main id="inicio">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="kicker">Control fiscal de CFDI para despachos contables</p>
+      <h1 style="margin-top:.6rem">Todos los CFDI de tus clientes, <span class="hl">sin portal y sin captcha</span>.</h1>
+      <p class="lead">Radar Fiscal descarga los XML directo del SAT con la e.firma de cada empresa, los ordena en una bóveda local, te avisa de proveedores en la lista 69-B y de facturas canceladas, y arma los reportes de ISR e IVA conciliados con el prellenado. Y sube los XML a CONTPAQi con un clic.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://wa.me/525565805408?text=Hola%2C%20quiero%20una%20demo%20gratis%20de%20Radar%20Fiscal" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Demo gratis 3 días</a>
+        <a class="btn btn-ghost" href="#video"><svg><use href="#i-play"/></svg>Ver el comercial (2 min)</a>
+      </div>
+      <div class="facts">
+        <span><svg><use href="#i-check"/></svg>Con la e.firma oficial del SAT</span>
+        <span><svg><use href="#i-check"/></svg>Todo se queda en tu equipo</span>
+        <span><svg><use href="#i-check"/></svg>Instalación y conexión con CONTPAQi incluidas</span>
+      </div>
+    </div>
+    <div id="video">
+      <div class="player">
+        <video id="comercial" preload="metadata" playsinline poster="media/portada.jpg">
+          <source src="media/comercial.mp4" type="video/mp4">
+          Tu navegador no reproduce este video. <a href="media/comercial.mp4" target="_blank" rel="noopener">Ábrelo aquí</a> o pídenoslo por WhatsApp.
+        </video>
+        <button type="button" class="play" id="play" aria-label="Reproducir el comercial"><span class="ring"><svg><use href="#i-play"/></svg></span><span class="txt">Ver el comercial · 2 min</span></button>
+      </div>
+      <div class="player-cap"><span>Comercial Radar Fiscal · 2:04 · con audio</span><span>Datos de demostración</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="dolor">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">¿Te suena?</p>
+      <h2>Lo que un despacho pierde cada mes con el portal del SAT</h2>
+    </div>
+    <div class="pains">
+      <article class="pain"><div class="n">Horas</div><h3>Descargando XML uno por uno</h3><p>Portal, captcha, empresa por empresa, mes por mes. Y vuelta a empezar cuando el portal se cae a mitad de la descarga.</p></article>
+      <article class="pain"><div class="n">69-B</div><h3>Facturas de proveedores que ya no son deducibles</h3><p>Un proveedor cae en la lista negra o cancela una factura después de emitirla, y nadie se entera hasta la revisión.</p></article>
+      <article class="pain"><div class="n">Al centavo</div><h3>Declaraciones que no cuadran con el prellenado</h3><p>Lo cobrado, lo pagado, los complementos de pago y el IVA calculados a mano, con el reloj encima el día 17.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="funciones">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Funciones</p>
+      <h2>Lo que Radar Fiscal hace por tu despacho</h2>
+      <p>Las pantallas son del programa real con datos de demostración. Haz clic en cualquiera para verla en grande.</p>
+    </div>
+
+    <article class="feat">
+      <div>
+        <p class="kicker">Descarga masiva</p>
+        <h3>Emitidos y recibidos de todas tus empresas, directo del SAT</h3>
+        <p>Das de alta cada empresa con su e.firma una sola vez. Después pides el periodo que quieras, el programa solicita, verifica y descarga solo, y te deja los XML listos. Si tienes 3 o 300 empresas, las bajas todas de una vez.</p>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Servicio oficial de descarga masiva del SAT, sin captcha ni portal</li>
+          <li><svg><use href="#i-check"/></svg>Descargas programadas: diarias, semanales o mensuales, con el programa abierto y sin nadie enfrente; si el equipo estuvo apagado, recupera la corrida</li>
+          <li><svg><use href="#i-check"/></svg>Metadata del SAT para saber qué se canceló y cuándo</li>
+        </ul>
+      </div>
+      <figure class="shot"><button type="button" data-img="media/descargas.webp" data-cap="Descargas de CFDI: solicitudes, estado y bitácora"><img src="media/descargas.webp" alt="Pantalla de descargas de CFDI con solicitudes al SAT y bitácora" loading="lazy" width="1366" height="1211"></button><small>Descargas: solicitudes al SAT, estado y bitácora.</small></figure>
+    </article>
+
+    <article class="feat flip">
+      <div>
+        <p class="kicker">Bóveda y documentos</p>
+        <h3>Tu bóveda fiscal ordenada sola, con el concepto de cada factura</h3>
+        <p>Los XML se guardan por empresa, tipo, año y mes. En Documentos ves cada CFDI con su estado en el SAT, la clave de producto, el concepto facturado, su complemento de pago y si el emisor está en la lista 69-B. Buscas por RFC, nombre, folio fiscal, clave SAT o concepto y exportas a Excel o PDF.</p>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Clave SAT y concepto a la vista, con el detalle de partidas</li>
+          <li><svg><use href="#i-check"/></svg>Validación del llenado del CFDI 4.0 antes de deducir</li>
+          <li><svg><use href="#i-check"/></svg>Estado Vigente/Cancelado verificado contra el SAT</li>
+        </ul>
+      </div>
+      <figure class="shot"><button type="button" data-img="media/documentos.webp" data-cap="Documentos: clave SAT, concepto, estado y pagos de cada CFDI"><img src="media/documentos.webp" alt="Pantalla de documentos con columnas de clave SAT y concepto" loading="lazy" width="1366" height="799"></button><small>Documentos: clave SAT, concepto, estado y pagos.</small></figure>
+    </article>
+
+    <article class="feat">
+      <div>
+        <p class="kicker">Protección</p>
+        <h3>EFOS 69-B y cancelaciones, avisados por correo</h3>
+        <p>El programa cruza tus proveedores contra la lista 69-B del SAT y detecta facturas canceladas después de emitidas. Cuando algo cambia, manda la alerta por correo al despacho y, si quieres, al cliente.</p>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Presuntos y definitivos marcados en rojo en Documentos</li>
+          <li><svg><use href="#i-check"/></svg>Alerta de «cancelado después de emitido» con su fecha; el motivo lo ves en Documentos y en el reporte</li>
+          <li><svg><use href="#i-check"/></svg>Constancia de situación fiscal y opinión de cumplimiento del SAT</li>
+        </ul>
+      </div>
+      <figure class="shot"><button type="button" data-img="media/alertas.webp" data-cap="Alertas: cancelaciones posteriores, lista 69-B y opinión negativa"><img src="media/alertas.webp" alt="Pantalla de alertas fiscales con cancelaciones y lista 69-B" loading="lazy" width="1366" height="821"></button><small>Alertas: cancelaciones, 69-B y opinión del SAT.</small></figure>
+    </article>
+
+    <article class="feat flip">
+      <div>
+        <p class="kicker">Reporte fiscal en Excel</p>
+        <h3>ISR, IVA y RESICO por flujo, conciliados con el prellenado</h3>
+        <p>Un libro de Excel por empresa y periodo: resumen mensual de lo facturado y lo cobrado, cobros y pagos por complemento, facturas PPD pendientes, nómina, conciliación contra la Metadata del SAT, validaciones de llenado y una hoja de notas que explica cada supuesto. Cada factura trae su estado, lugar de expedición y régimen fiscal.</p>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Ingresos cobrados e IVA como los calcula el prellenado del SAT</li>
+          <li><svg><use href="#i-check"/></svg>Cobros por factura: qué complemento pagó cada PPD y cuánto falta</li>
+          <li><svg><use href="#i-check"/></svg>Subtotales por tipo: facturas, notas de crédito y nómina</li>
+        </ul>
+      </div>
+      <figure class="shot"><button type="button" data-img="media/reporte.webp" data-cap="Hoja «Cobros por factura»: cada factura PPD con el complemento que la pagó, parcialidad y saldo"><img src="media/reporte.webp" alt="Hoja Cobros por factura del reporte fiscal en Excel" loading="lazy" width="1400" height="778"></button><small>Hoja «Cobros por factura»: qué complemento pagó cada PPD y cuánto falta.</small></figure>
+    </article>
+
+    <article class="feat">
+      <div>
+        <p class="kicker">Creador de reportes</p>
+        <h3>Arma tus propios reportes con cualquier campo del XML</h3>
+        <p>Más de 400 campos del CFDI 4.0, timbre, pagos, nómina, carta porte y comercio exterior, más los que el programa calcula. Eliges columnas, filtros y totales, ves la vista previa y guardas la plantilla para repetirla cada mes. Sale a Excel o CSV.</p>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Una fila por factura, concepto, impuesto, pago o percepción</li>
+          <li><svg><use href="#i-check"/></svg>Plantillas de fábrica: conceptos con clave SAT, pagos y facturas que liquidan, nómina por empleado, retenciones y base para DIOT</li>
+          <li><svg><use href="#i-check"/></svg>«Buscar campos en mis XML» encuentra lo que traigan tus comprobantes</li>
+        </ul>
+      </div>
+      <figure class="shot"><button type="button" data-img="media/creador.webp" data-cap="Creador de reportes: campos, columnas, filtros y vista previa"><img src="media/creador.webp" alt="Pantalla del creador de reportes" loading="lazy" width="1366" height="851"></button><small>Creador de reportes: campos, filtros y vista previa.</small></figure>
+    </article>
+
+    <article class="feat flip">
+      <div>
+        <p class="kicker">Análisis y tablero</p>
+        <h3>Un dictamen ejecutivo en PDF para entregar al cliente</h3>
+        <p>Con un clic, un documento que explica en palabras claras cómo le fue a la empresa: flujo de efectivo, semáforo de hallazgos, situación fiscal y qué hacer en orden. El tablero muestra ingresos, gastos, IVA y cartera de un vistazo.</p>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Riesgos fiscales detectados automáticamente</li>
+          <li><svg><use href="#i-check"/></svg>Top de clientes y proveedores, PPD por cobrar y por pagar</li>
+          <li><svg><use href="#i-check"/></svg>Listo para enviar por correo desde el programa</li>
+        </ul>
+      </div>
+      <figure class="shot"><button type="button" data-img="media/dictamen.webp" data-cap="Dictamen ejecutivo en PDF, primera página"><img src="media/dictamen.webp" alt="Primera página del dictamen ejecutivo en PDF" loading="lazy" width="1279" height="1654" style="max-height:520px;width:auto;margin-inline:auto"></button><small>Dictamen ejecutivo en PDF.</small></figure>
+    </article>
+
+    <article class="feat">
+      <div>
+        <p class="kicker">CONTPAQi</p>
+        <h3>Directo al ADD de CONTPAQi Contabilidad, sin duplicados</h3>
+        <p>Los XML descargados se suben al Almacén Digital (ADD) de CONTPAQi con un clic o de forma automática después de cada descarga. Lo que ya está en el ADD se omite, y puedes conciliar la bóveda contra el ADD para encontrar faltantes y cancelados por marcar.</p>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Conexión por el SDK oficial de CONTPAQi</li>
+          <li><svg><use href="#i-check"/></svg>Subida automática al terminar la descarga</li>
+          <li><svg><use href="#i-check"/></svg>Conciliación bóveda contra ADD, con exportación a CSV</li>
+        </ul>
+      </div>
+      <figure class="shot"><button type="button" data-img="media/contpaqi.webp" data-cap="Conciliación de la bóveda contra el ADD de CONTPAQi"><img src="media/contpaqi.webp" alt="Diálogo de conciliación de la bóveda contra el ADD de CONTPAQi" loading="lazy" width="880" height="431" style="max-width:640px;margin-inline:auto"></button><small>Conciliación bóveda contra ADD.</small></figure>
+    </article>
+  </div>
+</section>
+
+<section class="alt" id="mas">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Y también</p>
+      <h2>Todo lo demás que trae el programa</h2>
+    </div>
+    <div class="grid">
+      <div class="card"><svg><use href="#i-shield"/></svg><h3>Constancia y opinión del SAT</h3><p>Constancia de situación fiscal y opinión de cumplimiento de cada empresa, con historial y aviso cuando cambia a negativa.</p></div>
+      <div class="card"><svg><use href="#i-search"/></svg><h3>Validador de CFDI 4.0</h3><p>Revisa el llenado de cada comprobante: régimen, uso, código postal, impuestos y complementos. Semáforo por documento.</p></div>
+      <div class="card"><svg><use href="#i-table"/></svg><h3>XML a Excel</h3><p>Convierte cualquier carpeta de XML a Excel, por comprobante o por concepto, aunque no sea de tus empresas.</p></div>
+      <div class="card"><svg><use href="#i-chart"/></svg><h3>Tablero</h3><p>Ingresos, gastos, IVA e ISR estimados, cartera por cobrar y por pagar, alertas y los principales clientes y proveedores de cada empresa, de un vistazo.</p></div>
+      <div class="card"><svg><use href="#i-book"/></svg><h3>Manual interactivo</h3><p>Guía paso a paso dentro del programa (tecla F1), con las pantallas reales y lo que hace cada botón.</p></div>
+      <div class="card"><svg><use href="#i-key"/></svg><h3>Licencia por equipo</h3><p>Una licencia por computadora, empresas ilimitadas. Instalación y conexión con CONTPAQi incluidas.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="seguridad">
+  <div class="wrap sec">
+    <div>
+      <p class="kicker">Seguridad</p>
+      <h2 style="margin-top:.5rem">Todo se queda en tu equipo</h2>
+      <p style="color:var(--muted);margin-top:1rem">Radar Fiscal se conecta al SAT con el servicio oficial de descarga masiva, usando la e.firma de cada empresa. La e.firma y la base del programa viven en tu computadora; la bóveda de XML, en tu equipo o en la carpeta compartida de tu servidor, no en una nube ajena. Con CONTPAQi habla por su SDK oficial. El documento de seguridad explica cómo, sin tecnicismos.</p>
+      <p style="margin-top:1.2rem"><a class="btn btn-ghost" href="docs/Seguridad_RadarFiscal.pdf" target="_blank" rel="noopener"><svg><use href="#i-doc"/></svg>Documento de seguridad</a></p>
+    </div>
+    <div class="big">
+      <div class="tile"><b>100 %</b><span>local: e.firma, XML y bóveda en tu equipo</span></div>
+      <div class="tile"><b>e.firma</b><span>el canal oficial del SAT, el mismo que usa el contribuyente</span></div>
+      <div class="tile"><b>0</b><span>captchas ni contraseñas CIEC: todo con tu e.firma</span></div>
+      <div class="tile"><b>SDK</b><span>oficial de CONTPAQi para subir al ADD</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="como">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Cómo empieza</p>
+      <h2>En tres pasos estás descargando</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><h3>Agenda tu demo</h3><p>Escríbenos por WhatsApp. En una videollamada te lo mostramos funcionando con empresas de demostración.</p></div>
+      <div class="step"><h3>Lo instalamos y lo conectamos</h3><p>Nosotros instalamos el programa en tu equipo, activamos la licencia y lo conectamos con tu CONTPAQi. Tú registras cada empresa con su e.firma; te acompañamos en la primera.</p></div>
+      <div class="step"><h3>Úsalo gratis 3 días</h3><p>Con todas las funciones. Si te convence, activas tu licencia por equipo y sigues con los mismos datos.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="documentos">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Documentos</p>
+      <h2>Para leer con calma o compartir con tu equipo</h2>
+    </div>
+    <div class="docs">
+      <a class="doc" href="docs/Manual_RadarFiscal.pdf" target="_blank" rel="noopener"><svg><use href="#i-book"/></svg><div><b>Manual de usuario</b><span>Paso a paso con pantallas, 36 páginas (PDF, 6 MB)</span></div></a>
+      <a class="doc" href="docs/Seguridad_RadarFiscal.pdf" target="_blank" rel="noopener"><svg><use href="#i-shield"/></svg><div><b>Seguridad y arquitectura</b><span>Cómo se conecta al SAT y a CONTPAQi, dónde viven tus datos (PDF)</span></div></a>
+      <a class="doc" href="docs/RadarFiscal_Presentacion.pdf" target="_blank" rel="noopener"><svg><use href="#i-doc"/></svg><div><b>Presentación</b><span>Resumen del producto para tu socio o tu cliente (PDF, 3 MB)</span></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="faq">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Preguntas frecuentes</p>
+      <h2>Lo que nos preguntan antes de la demo</h2>
+    </div>
+    <div class="faq">
+      <details><summary>¿Necesito la e.firma de cada empresa?</summary><p>Sí. El SAT solo entrega los XML por el servicio de descarga masiva al contribuyente o a quien tenga su e.firma (.cer, .key y contraseña). Se guarda en tu equipo: la llave con el cifrado del SAT y la contraseña protegida con el cifrado de Windows de tu usuario. Solo se usa para firmar las solicitudes al SAT y, en la Constancia y la Opinión, para entrar a las páginas oficiales del SAT. Nunca pasa por servidores de TFGRUPO ni de terceros.</p></details>
+      <details><summary>¿Mis datos o los de mis clientes se suben a alguna nube?</summary><p>No. La e.firma y la base de datos están en tu computadora, y la bóveda de XML en tu equipo o en la carpeta compartida de tu servidor. El programa solo habla con el SAT, con tu CONTPAQi si lo conectas y con tu servidor de correo si envías reportes o alertas.</p></details>
+      <details><summary>¿Funciona con mi CONTPAQi?</summary><p>Con CONTPAQi Contabilidad (ADD) por su SDK oficial. Si no usas CONTPAQi, el programa funciona igual: bóveda, reportes, alertas y análisis no dependen de él.</p></details>
+      <details><summary>¿Cuántas empresas puedo manejar?</summary><p>Las que necesites, sin límite. La licencia es por equipo, no por empresa ni por RFC.</p></details>
+      <details><summary>¿Me entero si un cliente o proveedor cancela una factura?</summary><p>Sí. El programa compara con la Metadata del SAT y verifica el estatus de cada CFDI; cuando una factura ya descargada aparece cancelada, lo marca en Documentos y en el reporte, lo avisa en Alertas y, si configuras el correo del despacho, manda la alerta por correo al despacho y al cliente.</p></details>
+      <details><summary>¿Qué necesito para instalarlo?</summary><p>Una computadora con Windows 10 u 11 y Microsoft Edge (viene con Windows). No funciona en Mac. CONTPAQi Contabilidad solo si quieres subir los XML al ADD; sin él, el programa trabaja igual.</p></details>
+      <details><summary>¿Cuánto cuesta?</summary><p>La licencia es por equipo, con empresas ilimitadas, e incluye instalación y conexión con CONTPAQi. Escríbenos por WhatsApp y te cotizamos según cuántos equipos necesitas. La demo de 3 días no tiene costo.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <p class="kicker">Pruébalo hoy</p>
+    <h2 style="margin-top:.6rem">Deja de pelearte con el portal del SAT</h2>
+    <p>Agenda una demostración sin costo. Lo ves funcionando y te lo dejamos instalado 3 días gratis para probarlo con tus propias empresas.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://wa.me/525565805408?text=Hola%2C%20quiero%20agendar%20una%20demo%20de%20Radar%20Fiscal" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Escribir por WhatsApp</a>
+      <a class="btn btn-ghost" href="https://tfgrupo.com.mx" target="_blank" rel="noopener"><svg><use href="#i-globe"/></svg>tfgrupo.com.mx</a>
+    </div>
+    <div class="contact">
+      <span class="chip"><svg><use href="#i-phone"/></svg><span id="tel">55 6580 5408</span><button type="button" data-copy="5565805408">Copiar</button></span>
+      <span class="chip"><svg><use href="#i-mail"/></svg><span id="mail">gabriel.salas@tfgrupo.com.mx</span><button type="button" data-copy="gabriel.salas@tfgrupo.com.mx">Copiar</button></span>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><img src="media/logo.png" alt="Radar Fiscal"></span>
+    <span>Radar Fiscal es un producto de NUBYTEC by TFGRUPO · México · Las pantallas y el video usan datos de demostración.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // visor de pantallas
+  var lb=null;
+  function abrir(src,cap){
+    cerrar();
+    lb=document.createElement('figure'); lb.className='lb'; lb.setAttribute('role','dialog'); lb.setAttribute('aria-label',cap||'Pantalla');
+    var im=document.createElement('img'); im.src=src; im.alt=cap||''; lb.appendChild(im);
+    var fc=document.createElement('figcaption'); fc.textContent=(cap||'')+'  ·  clic o Esc para cerrar'; lb.appendChild(fc);
+    var x=document.createElement('button'); x.type='button'; x.className='x'; x.setAttribute('aria-label','Cerrar'); x.textContent='\u00d7'; lb.appendChild(x);
+    lb.addEventListener('click',cerrar); document.body.appendChild(lb); document.body.style.overflow='hidden';
+  }
+  function cerrar(){ if(lb){ lb.remove(); lb=null; document.body.style.overflow=''; } }
+  document.querySelectorAll('.shot button').forEach(function(b){ b.addEventListener('click',function(){ abrir(b.dataset.img,b.dataset.cap); }); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrar(); });
+
+  // copiar contacto
+  function aviso(t){ var d=document.createElement('div'); d.className='toast'; d.textContent=t; document.body.appendChild(d); setTimeout(function(){ d.remove(); },1800); }
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var v=b.dataset.copy, span=b.previousElementSibling;
+      function sel(){ try{ var r=document.createRange(); r.selectNodeContents(span); var s=getSelection(); s.removeAllRanges(); s.addRange(r); aviso('Selecciona y copia'); }catch(e){} }
+      try{ navigator.clipboard.writeText(v).then(function(){ aviso('Copiado'); }, sel); }catch(e){ sel(); }
+    });
+  });
+
+  // al pedir «ver el comercial», desplazar y preparar el video
+  var v=document.getElementById('comercial'), play=document.getElementById('play');
+  function arrancar(){ v.controls=true; play.hidden=true; var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); }
+  play.addEventListener('click',arrancar);
+  v.addEventListener('play',function(){ v.controls=true; play.hidden=true; });
+  document.querySelectorAll('a[href="#video"]').forEach(function(a){ a.addEventListener('click',function(){ try{ v.focus({preventScroll:true}); }catch(e){} }); });
+})();
+</script>
+</body>
+</html>
